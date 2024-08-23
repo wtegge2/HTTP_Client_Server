@@ -9,5 +9,6 @@ Note: client does not support caching or recursively retrieving embedded objects
 
 1. Open up two different terminals (can be on the same machine or different vms)
 2. Launch the server in one terminal using the following command:```./http_server port_number```
-3. Launch the client in the other terminal using the following command: ```./http_client http://hostname[:port]/path/to/file``` 
+3. Launch the client in the other terminal using the following command: 
+    - ```./http_client http://hostname[:port]/path/to/file``` 
     - ex: ```./http_client http://127.0.0.1/index.html```
