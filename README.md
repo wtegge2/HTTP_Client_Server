@@ -12,3 +12,5 @@ Note: client does not support caching or recursively retrieving embedded objects
 3. Launch the client in the other terminal using the following command: 
     - ```./http_client http://hostname[:port]/path/to/file``` 
     - ex: ```./http_client http://127.0.0.1/index.html```
+
+    note: if there is no port number (:port), then code assumes port 80 (standard HTTP port)
