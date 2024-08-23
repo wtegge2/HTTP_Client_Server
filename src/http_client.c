@@ -1,8 +1,3 @@
-
-/*
-** client.c -- a stream socket client demo
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -74,22 +69,17 @@ int main(int argc, char *argv[])
  }
 
  start = start + 7;
- // printf("Start is %s \n", start);
  
  // get the start of port number
  start_of_port = start;
  while(*start_of_port != ':'){
      if(*start_of_port == '\0'){
-         // fprintf(stderr, "Port not found\n");
-         // exit(1);
-          // printf("No port in this request \n");
           no_port_flag = 1;
           start_of_port = start;
           break;
      }
      start_of_port++;
  }
-  // printf("Start of port is %s \n", start_of_port);
 
 
  // get the start of file path
@@ -98,15 +88,9 @@ int main(int argc, char *argv[])
      if(*start_of_path == '\0'){
           fprintf(stderr, "Path not found\n");
           exit(1);
-          // printf("No port in this request 2 \n");
-          // no_port_flag = 1;
-          // start_of_path = start;
-          // break;
      }
      start_of_path++;
-
  }
-  // printf("Start of path is %s \n", start_of_path);
 
  hostname_start = start;
 
@@ -135,7 +119,7 @@ int main(int argc, char *argv[])
       hostname[hostname_length] = '\0';
 
 
-      port = PORT;        // ???
+      port = PORT;
 
 
       strncpy(path, start_of_path + 1, path_length - 1);
@@ -195,7 +179,6 @@ int main(int argc, char *argv[])
 
 
  // loop through all the results and connect to the first we can
- // printf("Trying to connect... \n");
  for(p = servinfo; p != NULL; p = p->ai_next) {
      if ((sockfd = socket(p->ai_family, p->ai_socktype,
              p->ai_protocol)) == -1) {
@@ -208,8 +191,6 @@ int main(int argc, char *argv[])
          perror("client: connect");
          continue;
      }
-
-     // printf("Connected succesfully! \n");
      break;
  }
 
@@ -282,64 +263,6 @@ int main(int argc, char *argv[])
 
  }
 
-
-/*
- int flag = 0;
- int full_length = -1;
- while((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) > 0){
-
-    // check if numbytes is 0
-    // check if fwrite is writing anything 
-
-     // buf[numbytes] = '\0';
-
-     if(!flag){
-         char *temp = strstr(buf, "\r\n\r\n");
-
-
-         if(temp != NULL){
-
-             flag = 1;
-
-             temp = temp + 4;
-
-             char *length = strstr(buf, "Content-Length:");
-             if(length != NULL){
-                 full_length = atoi(length + strlen("Content-Length:"));
-
-             }
-
-             if(full_length > 0){
-                 fwrite(temp, 1, full_length, file);
-                 memset(buf,'\0', MAXDATASIZE);
-                 full_length -= numbytes - (temp - buf);
-             }
-             else{
-                printf("Writing here!!!\n");
-
-                fwrite(temp, 1, numbytes - (temp - buf) - 4, file);
-                // fwrite(temp, 1, numbytes, file);
-                memset(buf,'\0', MAXDATASIZE);
-
-             }
-         }
-     }
-     else{
-       
-         if(full_length > 0){
-             fwrite(buf, 1, numbytes, file);
-             memset(buf,'\0', MAXDATASIZE);
-             full_length = full_length - numbytes;
-         }
-         else{
-             fwrite(buf, 1, numbytes, file);
-             memset(buf,'\0', MAXDATASIZE);
-         }
-     }
-     
- }
-*/
-
     int flag = 0;
     char *phrase_1 = "HTTP/1.1 200 OK\r\n\r\n";
     char *phrase_2 = "HTTP/1.1 400 Bad Request\r\n\r\n";
@@ -368,10 +291,6 @@ int main(int argc, char *argv[])
                 break;
             }
 
-            // numbytes = numbytes - (position - buf) + strlen(phrase_1);
-
-            // memmove(buf, position + strlen(phrase_1), numbytes);
-
             flag = fwrite(position_1 + strlen(phrase_1), 1, numbytes - (position_1 - buf) - strlen(phrase_1), file);
 
             if(flag != (numbytes - (position_1 - buf) - strlen(phrase_1))){
@@ -396,10 +315,6 @@ int main(int argc, char *argv[])
                 printf("error with fwrite! \n");
                 break;
             }
-
-            // numbytes = numbytes - (position - buf) + strlen(phrase_1);
-
-            // memmove(buf, position + strlen(phrase_1), numbytes);
 
             flag = fwrite(position_2 + strlen(phrase_2), 1, numbytes - (position_2 - buf) - strlen(phrase_2), file);
 
@@ -428,10 +343,6 @@ int main(int argc, char *argv[])
                 break;
             }
 
-            // numbytes = numbytes - (position - buf) + strlen(phrase_1);
-
-            // memmove(buf, position + strlen(phrase_1), numbytes);
-
             flag = fwrite(position_3 + strlen(phrase_3), 1, numbytes - (position_3 - buf) - strlen(phrase_3), file);
 
             if(flag != (numbytes - (position_3 - buf) - strlen(phrase_3))){
@@ -444,7 +355,6 @@ int main(int argc, char *argv[])
 
         }
         else{
-            // printf("No skip needed \n");
             flag = fwrite(buf, 1, numbytes, file);
 
             if(flag != numbytes){
@@ -455,10 +365,6 @@ int main(int argc, char *argv[])
                 break;
             }
         }
-
-        //printf("number of bytes written: %d \n", flag);
-        //printf("number of bytes recieved: %d \n", numbytes);
-
         memset(buf, '\0', MAXDATASIZE);
     }
 
@@ -477,8 +383,6 @@ int main(int argc, char *argv[])
 
  }
 
-
- // printf("Saved to output file \n");
  close(sockfd);
 
  fclose(file);

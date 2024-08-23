@@ -1,7 +1,3 @@
-/*
-** server.c -- a stream socket server demo
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -14,8 +10,6 @@
 #include <arpa/inet.h>
 #include <sys/wait.h>
 #include <signal.h>
-
-
 
 
 #define PORT "80"       // the port users will be connecting to
@@ -171,7 +165,7 @@ int main(int argc, char* argv[])
             printf("Full Request: %s", request);
             printf("Full Request: %s", request_);
 
-            request_ = request + 5;    // skip 4 characters in request 
+            request_ = request + 5;      // skip 4 characters in request 
 
             printf("Full Request: %s", request_);
 
@@ -209,26 +203,16 @@ int main(int argc, char* argv[])
 
             printf("File path: %s \n", file_path);
 
-
-            // printf("Requested file: %s\n", file_path);      // print path for debugging
-
             FILE *file = fopen(file_path, "rb");
-            // not getting correct file path here?!?!?!
-            // /home/fulcrum/Desktop/sp24_cs438_.release/mp1/teamname.txt
-            // needs to account for relative path and absolute path!
-            // if relative path, there should only be 1 /
-
 
             if (!file) {
                strcpy(response, "HTTP/1.1 404 File Not Found\r\n\r\n");
-               // printf("404 ERROR HERE!!!");
                if (send(new_fd, response, strlen(response), 0) == -1) {
                    perror("send");
                }
                perror("fopen");
                exit(1);
             }
-
 
             // file is found so we send 200 OK message
             strcpy(response, "HTTP/1.1 200 OK\r\n\r\n");
@@ -240,29 +224,14 @@ int main(int argc, char* argv[])
             // send contents of file
             memset(response, '\0', BUFFER);         // fill response buffer with NULL characters
 
-            /*
-            while ((bytes = fread(response, sizeof(char), BUFFER, file)) != 0) {
-               if (send(new_fd, response, bytes, 0) == -1) {
-                   perror("send");
-                   exit(1);
-               }
-               memset(response, '\0', BUFFER);
-            }
-            */
-           
            size_t bytes_read;
            while ((bytes_read = fread(response, 1, BUFFER, file)) > 0) {
                if (send(new_fd, response, bytes_read, 0) == -1) {
                    perror("send");
-                   //exit(1);
                    break;
                }
                memset(response, '\0', BUFFER);
             }
-
-
-            // if (send(new_fd, "Hello, world!", 13, 0) == -1)
-            //  perror("send");
 
             fclose(file);
             close(new_fd);
