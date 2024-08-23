@@ -4,6 +4,10 @@ This project is an implementation of the HTTP protocol in the form of a client a
 
 Note: client does not support caching or recursively retrieving embedded objects.  
 
+## What is HTTP Protocol?
+
+HTTP Protocol allows for transfer between a client and a server. Data such as files and images are shared with this protocol online. It is an application layer protocol, and it uses TCP. 
+
 
 ## How To Run Server and Client
 
