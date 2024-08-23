@@ -8,5 +8,5 @@ Note: client does not support caching or recursively retrieving embedded objects
 ## How To Run Server and Client
 
 1. Open up two different terminals (can be on the same machine or different vms)
-2. 
-3. 
+2. Launch the server in one terminal using the following command: './http_server port_number'
+3. Launch the client in the other terminal using the following command:
